@@ -1,10 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
 from django_filters import rest_framework as filters
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .models import Advertisement, Favorite
 from .serializers import AdvertisementSerializer, FavoriteSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwner
 from .filters import AdvertisementFilter, FavoriteFilter
 
 
@@ -27,7 +27,7 @@ class AdvertisementViewSet(ModelViewSet):
 
     
     serializer_class = AdvertisementSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AdvertisementFilter
 
@@ -36,6 +36,6 @@ class FavoriteViewSet(ModelViewSet):
     """ViewSet для избранного."""
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
-    permission_classes = [IsOwnerOrReadOnly, IsAuthenticated]
+    permission_classes = [IsOwner]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = FavoriteFilter
