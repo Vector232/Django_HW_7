@@ -44,7 +44,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         # TODO: добавьте требуемую валидацию
         #  Проверку на метод убрал вообще, 
         #  так как нам главное НЕ ОТКРЫТЬ больше 10 объявлений
-        if self['request'].method == 'POST' or data.get('status') == 'OPEN':
+        if self.context['request'].method == 'POST' or data.get('status') == 'OPEN':
             creator = self.context["request"].user
             count = Advertisement.objects.filter(creator=creator, status='OPEN').count()
             
